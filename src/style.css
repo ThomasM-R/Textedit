@@ -113,7 +113,7 @@ textarea {
 	text-decoration: none;
 }
 textarea:not([linewrap]) {
-	white-space: nowrap;
+	white-space: pre;
 }
 textarea:focus {
 	outline: 0;
