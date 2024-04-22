@@ -1,0 +1,140 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	font-family: Tahoma, sans-serif;
+	overflow: hidden;
+}
+@keyframes error {
+	0% {color: #ff8080;}
+	50% {color: #ff0000;}
+	100% {color: #000000}
+}
+kbd {
+	font-size: smaller;
+	opacity: 0.5;
+}
+kbd::before {
+	content: "(";
+}
+kbd::after {
+	content: ")";
+}
+body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+nav {
+	background-color: lightgray;
+	display: flex;
+}
+div.menu {
+	display: none;
+	position: absolute;
+	flex-direction: column;
+	width: max-content;
+	margin-left: 100%;
+	margin-top: -24px;
+	box-shadow: #00000080 2px 2px 2px;
+}
+nav > .dropdown > .menu {
+	margin-left: 0;
+	margin-top: 0;
+}
+.dropdown:hover > div {
+	display: flex;
+}
+.dropdown button {
+	text-align: start;
+	width: 100%;
+}
+button {
+	border-width: 1px;
+	border-color: whitesmoke darkgray darkgray whitesmoke;
+	border-style: solid;
+	padding: 4px;
+	font-size: 12px;
+	height: min-content;
+	background: lightgray;
+	cursor: pointer;
+	font-family: Arial, Helvetica, sans-serif, sans-serif;
+}
+button:disabled {
+	background: whitesmoke;
+	cursor: default;
+}
+button:disabled::before {
+	opacity: 0.5;
+}
+:not(nav) > .dropdown > button::after {
+	content: "›";
+	float: right;
+	margin-left: 4px;
+	font-family: monospace;
+}
+button:not(:disabled):hover {
+	background: lightblue;
+}
+button:not(:disabled):active {
+	background: gray;
+}
+button[toggle] {
+	max-height: 25px;
+}
+button[toggle]::before {
+	content: url(data:image/gif;base64,R0lGODlhCAAIAIAAAAAAAAAAACH5BAUKAAAALAAAAAAIAAgAAAINjH+ga8vhVIvT1YdOAQA7);
+	image-rendering: pixelated;
+	margin-right: 4px;
+}
+button[toggle][checked]::before {
+	content: url(data:image/gif;base64,R0lGODlhCAAIAIAAAAAAAAAAACH5BAUKAAAALAAAAAAIAAgAAAINjH+ga4AeYJuJ0sUQKgA7);
+}
+main {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+textarea {
+	font-family: monospace;
+	font-weight: 400;
+	resize: none;
+	max-height: 100%;
+	width: 100%;
+	border-width: 1px;
+	border-color: darkgray whitesmoke whitesmoke darkgray;
+	border-style: solid;
+	margin-block: 0px;
+	padding: 6px;
+	font-size: 14px;
+	tab-size: 4;
+	line-height: 16px;
+}
+::spelling-error {
+	text-decoration: none;
+}
+textarea:not([linewrap]) {
+	white-space: nowrap;
+}
+textarea:focus {
+	outline: 0;
+}
+footer {
+	height: max-content;
+	background-color: lightgray;
+	display: flex;
+	justify-content: space-between;
+	border-width: 1px;
+	border-color: whitesmoke darkgray darkgray whitesmoke;
+	border-style: solid;
+	text-wrap: nowrap;
+}
+footer div {
+	font-size: 12px;
+	text-align: start;
+	border-width: 1px;
+	border-color: darkgray whitesmoke whitesmoke darkgray;
+	border-style: solid;
+	margin: 1px;
+	padding: 2px;
+	width: 100%;
+}
