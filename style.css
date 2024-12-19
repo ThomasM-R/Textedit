@@ -67,7 +67,7 @@ button:disabled::before {
 	opacity: 0.5;
 }
 :not(nav) > .dropdown > button::after {
-	content: "›";
+	content: "\203A";
 	float: right;
 	margin-left: 4px;
 	font-family: monospace;
