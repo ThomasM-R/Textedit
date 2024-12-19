@@ -1,6 +1,6 @@
 const textbox = document.getElementById("textbox");
 const statusbar = document.getElementById("statusbar");
-const VERSION = "0.8.1";
+const VERSION = "0.8.2";
 
 // listen for errors
 window.onerror = (event, source, lineno, colno, error) => {
@@ -174,21 +174,26 @@ const buttonActions = {
 		}
 	},
 	"runasjs": async ()=>{
-		if (menuButton.hasAttribute("disabled")) return;
 		try {
-			alert(await eval(`(async (text)=>{${textbox.value};})(textbox.value);`));
+			if (document.querySelector("nav .menu button[name='runasjs']").hasAttribute("disabled")) return;
+			eval(textbox.value);
 			refreshStatusBar();
 		} catch(e) {
 			alert(e);
 		}
 	},
-	"template": ()=>{
+	"template": async ()=>{
 		if (saved || confirm("Your file is not saved! Replace anyway?")) {
-			filename = "donut.js";
-			textbox.value = `// Stolen- er, i mean- Permanently borrowed without permission from https://www.hmz.ie/javascript-donut\n// [Help] > [Danger Zone] > [Run file as Javascript]\n\n               let x=1760,\n          z=0,y=0;setInterval\n        (()=>{z+=.07,y+=.03;const\n      a=[...new Array(x)].map( (a,r\n    )=>r % 80 === 79 ?"\\n":" "),r=new\n   Array(x).fill(0), t= Math.cos(z),e=\n  Math.sin(z),n=Math.cos(y), o=Math.sin\n (y);for(let s=0;s<6.28; s+=.07){const c\n =Math.cos(s),h=      Math.sin(s);for(let\ns=0;s<6.28;s+=          .02){const v=Math\n.sin(s),M=Math          .cos(s),i=c+2,l=1\n /(v*i*e+h*t+5          ),p=v*i*t-h*e,d=0\n |40+30*l*(M*i*n      -p*o),m=0|12+15*l*\n  (M*i*o+p*n),f=0|8*((h*e-v*c*t)*n-v*c*\n    e-h*t-M*c*o), y=d+80*m;m<22&&m>=0\n     &&d>=0&&d<79&&l>r[y] &&(r[y]=l,\n      a[y]= ".,-~:;=!*#$@"[f>0?f:0\n       ])}}textbox.value=a.join\n          ("")},50); /* JS by \n              @housamz */`;
+			base = document.createElement("base");
+			base.href = "https://thomasm-r.github.io/Textedit/";
+			document.head.appendChild(base);
+			
+			filename = ["index.html", "script.js", "style.css"][Math.floor(Math.random() * 3)];
+			textbox.value = await (await (await fetch(filename)).blob()).text();
 			textbox.selectionStart = textbox.selectionEnd = 0;
 			textbox.focus();
 			saved = true;
+			base.remove();
 		}
 		refreshStatusBar();
 	}
@@ -222,10 +227,11 @@ function refreshStatusBar() {
 		statusbar.style.display = "flex";
 		let text = "";
 		let bytes = new Blob([textbox.value]).size;
+		let wordCount = textbox.value.trim().split(/\s+/).length;
 		const statusMessages = {
 			"fileinfo": `Editing ${filename}` + (saved ? "": " (Unsaved)"),
 			"charcount": `${textbox.value.length} chars`,
-			"wordcount": `${textbox.value.trim().split(/\s+/).length} words`,
+			"wordcount": textbox.value.length == 0 ? "0 words" : (wordCount == 1 ? "1 word" : wordCount + " words"),
 			"filesize": (bytes > 999 ? `${Math.floor(bytes / 100) / 10} KB` : `${bytes} bytes`),
 			"version": `Textedit v${VERSION}`,
 			"debug": JSON.stringify(settings)
